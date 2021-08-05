@@ -1,6 +1,5 @@
 import UserModel from './userModel.js';
 import PostModel from '../post/postModel.js';
-import UserIntutDto from './userInputDto.js';
 
 const userModule = new UserModel();
 
@@ -26,13 +25,10 @@ export default class UsersService {
     }
 
     create(entityData) {
-        const entity = new UserIntutDto(entityData.name, entityData.age);
-        return userModule.create(entity);
+        return userModule.create(entityData);
     }
 
     update(entityData) {
-        const entity = new UserIntutDto(entityData.name, entityData.age);
-        entity.id = entityData.id;
-        return userModule.update(entity);
+        return userModule.update(entityData);
     }
 }
