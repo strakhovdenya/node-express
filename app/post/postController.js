@@ -3,23 +3,52 @@ import PostsService from './postsSerevice.js';
 const postsService = new PostsService();
 
 export default class PostController {
-    getAll() {
-        return postsService.getAll();
+    async getAll(req, res) {
+        try {
+            const response = await postsService.getAll()
+            res.end(JSON.stringify({ data: response }));
+        } catch (error) {
+            res.end(JSON.stringify({ error: error.message }));
+        }
     }
 
-    get(id) {
-        return postsService.get(id);
+    async get(req, res) {
+        try {
+            const id = req.params.id;
+            const response = await postsService.get(id)
+            res.end(JSON.stringify({ data: response }));
+        } catch (error) {
+            res.end(JSON.stringify({ error: error.message }));
+        }
     }
 
-    delete(id) {
-        return postsService.delete(id);
+    async delete(req, res) {
+        try {
+            const id = req.body.id;
+            const response = await postsService.delete(id)
+            res.end(JSON.stringify({ data: response }));
+        } catch (error) {
+            res.end(JSON.stringify({ error: error.message }));
+        }
     }
 
-    create(entity) {
-        return postsService.create(entity);
+    async create(req, res) {
+        try {
+            const entity = req.body;
+            const response = await postsService.create(entity)
+            res.end(JSON.stringify({ data: response }));
+        } catch (error) {
+            res.end(JSON.stringify({ error: error.message }));
+        }
     }
 
-    update(entity) {
-        return postsService.update(entity);
+    async update(req, res) {
+        try {
+            const entity = req.body;
+            const response = await postsService.update(entity)
+            res.end(JSON.stringify({ data: response }));
+        } catch (error) {
+            res.end(JSON.stringify({ error: error.message }));
+        }
     }
 }

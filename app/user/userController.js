@@ -3,23 +3,52 @@ import UsersService from './usersServise.js';
 const usersService = new UsersService();
 
 export default class UserController {
-    getAll() {
-        return usersService.getAll();
+    async getAll(req, res) {
+        try {
+            const response = await usersService.getAll()
+            res.end(JSON.stringify({ data: response }));
+        } catch (error) {
+            res.end(JSON.stringify({ error: error.message }));
+        }
     }
 
-    get(id) {
-        return usersService.get(id);
+    async get(req, res) {
+        try {
+            const id = req.params.id;
+            const response = await usersService.get(id)
+            res.end(JSON.stringify({ data: response }));
+        } catch (error) {
+            res.end(JSON.stringify({ error: error.message }));
+        }
     }
 
-    delete(id) {
-        return usersService.delete(id);
+    async delete(req, res) {
+        try {
+            const id = req.body.id;
+            const response = await usersService.delete(id)
+            res.end(JSON.stringify({ data: response }));
+        } catch (error) {
+            res.end(JSON.stringify({ error: error.message }));
+        }
     }
 
-    create(entity) {
-        return usersService.create(entity);
+    async create(req, res) {
+        try {
+            const entity = req.body;
+            const response = await usersService.create(entity)
+            res.end(JSON.stringify({ data: response }));
+        } catch (error) {
+            res.end(JSON.stringify({ error: error.message }));
+        }
     }
 
-    update(entity) {
-        return usersService.update(entity);
+    async update(req, res) {
+        try {
+            const entity = req.body;
+            const response = await usersService.update(entity)
+            res.end(JSON.stringify({ data: response }));
+        } catch (error) {
+            res.end(JSON.stringify({ error: error.message }));
+        }
     }
 }
