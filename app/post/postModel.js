@@ -1,25 +1,26 @@
 import EntityDriver from '../../libs/entities/entityDriver.js';
-import {constants}  from '../../libs/constants.js';
+import config from 'config';
 
+const postEntity = config.get("post_entity");
 
 export default class PostModel extends EntityDriver {
     constructor() {
-        super([constants.POST_ENTITY]);
+        super([postEntity]);
     }
 
     get(id) {
-        return super.get(constants.POST_ENTITY, id);
+        return super.get(postEntity, id);
     }
 
     create(entity) {
-        return super.create(constants.POST_ENTITY, entity)
+        return super.create(postEntity, entity)
     }
 
     delete(id) {
-        return super.delete(constants.POST_ENTITY, id)
+        return super.delete(postEntity, id)
     }
 
     update(entity) {
-        return super.update(constants.POST_ENTITY, entity)
+        return super.update(postEntity, entity)
     }
 }

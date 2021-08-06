@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import fsProm from 'fs/promises';
 
-
 export default class EntityDriver {
     constructor(entities) {
         this.entities = entities;
