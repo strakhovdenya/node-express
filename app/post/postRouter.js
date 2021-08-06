@@ -1,5 +1,7 @@
 import express from 'express'
 import PostController from './postController.js';
+import { default as validatorPostsInputCreate } from './postInputValidatorCreate.js'
+import { default as validatorPostsInputUpdate } from './postInputValidatorUpdate.js'
 
 const router = express.Router();
 const postController = new PostController();
@@ -7,7 +9,7 @@ const postController = new PostController();
 router.get('/', postController.getAll);
 router.get('/:id', postController.get);
 router.delete('/', postController.delete);
-router.put('/', postController.create);
-router.patch('/', postController.update);
+router.put('/', validatorPostsInputCreate, postController.create);
+router.patch('/', validatorPostsInputUpdate, postController.update);
 
 export default router;
