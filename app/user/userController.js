@@ -1,6 +1,8 @@
 import UsersService from './usersServise.js';
+import { default as UsersService2 }   from './users.servise.js';
 
 const usersService = new UsersService();
+const usersService2 = new UsersService2();
 
 export default class UserController {
     async getAll(req, res) {
@@ -15,7 +17,7 @@ export default class UserController {
     async get(req, res) {
         try {
             const id = req.params.id;
-            const response = await usersService.get(id)
+            const response = await usersService2.get(id)
             res.end(JSON.stringify({ data: response }));
         } catch (error) {
             res.end(JSON.stringify({ error: error.message }));

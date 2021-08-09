@@ -3,6 +3,7 @@ import config from 'config';
 
 const postEntity = config.get("post_entity");
 
+
 export default class PostModel extends EntityDriver {
     constructor() {
         super([postEntity]);
