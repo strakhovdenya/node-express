@@ -25,7 +25,7 @@ export default function userModel (sequelize) {
         },
         age: {
             allowNull: false,
-            type: DataTypes.NUMBER,
+            type: DataTypes.INTEGER,
             validate: {
                 // We require usernames to have length of at least 3, and
                 // only use letters, numbers and underscores.
@@ -33,4 +33,4 @@ export default function userModel (sequelize) {
             }
         },
     });
-};
+}

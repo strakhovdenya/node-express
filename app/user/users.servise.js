@@ -1,6 +1,6 @@
 import UserModel from './userModel.js';
 import PostModel from '../post/postModel.js';
-import db from '../sequelize/index.js';
+import db from '../sequi/index.js';
 const userModule = new UserModel();
 
 export default class UsersService {
