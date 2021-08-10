@@ -1,11 +1,11 @@
-import PostsService from './postsSerevice.js';
+import { default as PostsService2 } from './posts.serevice.js';
 
-const postsService = new PostsService();
+const postsService2 = new PostsService2();
 
 export default class PostController {
     async getAll(req, res) {
         try {
-            const response = await postsService.getAll()
+            const response = await postsService2.getAll()
             res.end(JSON.stringify({ data: response }));
         } catch (error) {
             res.end(JSON.stringify({ error: error.message }));
@@ -15,7 +15,7 @@ export default class PostController {
     async get(req, res) {
         try {
             const id = req.params.id;
-            const response = await postsService.get(id)
+            const response = await postsService2.get(id)
             res.end(JSON.stringify({ data: response }));
         } catch (error) {
             res.end(JSON.stringify({ error: error.message }));
@@ -25,7 +25,7 @@ export default class PostController {
     async delete(req, res) {
         try {
             const id = req.body.id;
-            const response = await postsService.delete(id)
+            const response = await postsService2.delete(id)
             res.end(JSON.stringify({ data: response }));
         } catch (error) {
             res.end(JSON.stringify({ error: error.message }));
@@ -35,7 +35,7 @@ export default class PostController {
     async create(req, res) {
         try {
             const entity = req.body;
-            const response = await postsService.create(entity)
+            const response = await postsService2.create(entity)
             res.end(JSON.stringify({ data: response }));
         } catch (error) {
             res.end(JSON.stringify({ error: error.message }));
@@ -45,7 +45,7 @@ export default class PostController {
     async update(req, res) {
         try {
             const entity = req.body;
-            const response = await postsService.update(entity)
+            const response = await postsService2.update(entity)
             res.end(JSON.stringify({ data: response }));
         } catch (error) {
             res.end(JSON.stringify({ error: error.message }));

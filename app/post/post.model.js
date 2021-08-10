@@ -15,9 +15,6 @@ export default function postModel(sequelize) {
             text: {
                 allowNull: false,
                 type: DataTypes.STRING,
-                validate: {
-                    is: /^\w{3,}$/
-                }
             },
             userId: {
                 allowNull: false,

@@ -13,12 +13,12 @@ export default class UsersService {
 
     async delete(id) {
         const posts = await db.models.post.findAll({
-            where:{
-                userId:id
+            where: {
+                userId: id
             }
         });
         if (posts.length !== 0) {
-            throw new Error(`user with id: ${id} have ${posts.length} users`);
+            throw new Error(`user with id: ${id} have ${posts.length} posts`);
         }
 
         await db.models.user.destroy({
@@ -27,7 +27,7 @@ export default class UsersService {
             }
         });
 
-        return `record with id ${id} is deleted`;
+        return `user with id ${id} is deleted`;
     }
 
     create(entityData) {
@@ -38,10 +38,10 @@ export default class UsersService {
     async update(entityData) {
 
         const userForUpdate = await db.models.user.findByPk(entityData.id);
-        if (!userForUpdate){
+        if (!userForUpdate) {
             throw new Error(`record with id ${entityData.id} is absent in users`);
         }
-        console.log(userForUpdate);
+
         await db.models.user.update(entityData, {
             where: {
                 id: entityData.id
