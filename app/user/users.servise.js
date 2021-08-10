@@ -1,7 +1,5 @@
-import PostModel from '../post/postModel.js';
 import db from '../sequelize/index.js';
 import { v4 as uuidv4 } from 'uuid';
-
 
 export default class UsersService {
 
@@ -14,11 +12,13 @@ export default class UsersService {
     }
 
     async delete(id) {
-        const postModel = new PostModel();
-        const posts = await postModel.get();
-        const userPosts = posts.filter(el => el.userId === id);
-        if (userPosts.length !== 0) {
-            throw new Error(`user with id: ${id} have ${userPosts.length} users`);
+        const posts = await db.models.post.findAll({
+            where:{
+                userId:id
+            }
+        });
+        if (posts.length !== 0) {
+            throw new Error(`user with id: ${id} have ${posts.length} users`);
         }
 
         await db.models.user.destroy({
@@ -26,7 +26,7 @@ export default class UsersService {
                 id: id
             }
         });
-        
+
         return `record with id ${id} is deleted`;
     }
 
