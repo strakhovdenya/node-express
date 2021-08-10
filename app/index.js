@@ -2,13 +2,10 @@
 import 'dotenv/config';
 import config from 'config';
 import express from 'express'
-import EntityDriver from '../libs/entities/entityDriver.js';
 import { default as userRouter } from './user/user.router.js'
 import { default as postRouter } from './post/post.router.js'
 import { sequelizeInit } from './sequelize/index.js';
 
-
-const dbDriver = new EntityDriver([config.get("post_entity"), config.get("user_entity")]);
 
 const app = express();
 const port = config.get("port");
@@ -24,7 +21,6 @@ app.use(function (req, res) {
 });
 
 const init = async () => {
-    await dbDriver.init();
 
     await sequelizeInit();
 

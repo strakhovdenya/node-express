@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize';
 import userModel from '../user/user.model.js';
 import postModel from '../post/post.model.js';
+import { applyRelationship } from './relationship.js';
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
@@ -25,5 +26,7 @@ export async function sequelizeInit() {
         console.error('Unable to connect to the database:', error);
     }
 }
+
+applyRelationship(sequelize);
 
 export default sequelize;
