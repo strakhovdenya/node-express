@@ -5,7 +5,7 @@ import express from 'express'
 import EntityDriver from '../libs/entities/entityDriver.js';
 import { default as userRouter } from '../app/user/userRouter.js'
 import { default as postRouter } from '../app/post/postRouter.js'
-import { sequelizeInit } from './sequi/index.js';
+import { sequelizeInit } from './sequelize/index.js';
 
 
 const dbDriver = new EntityDriver([config.get("post_entity"), config.get("user_entity")]);
