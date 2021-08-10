@@ -1,5 +1,5 @@
 import express from 'express'
-import UserController from './userController.js';
+import UserController from './user.controller.js';
 import { default as validatorUsersInputCreate } from './userInputValidatorCreate.js'
 import { default as validatorUsersInputUpdate } from './userInputValidatorUpdate.js'
 

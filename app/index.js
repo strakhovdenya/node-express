@@ -3,8 +3,8 @@ import 'dotenv/config';
 import config from 'config';
 import express from 'express'
 import EntityDriver from '../libs/entities/entityDriver.js';
-import { default as userRouter } from '../app/user/userRouter.js'
-import { default as postRouter } from '../app/post/postRouter.js'
+import { default as userRouter } from './user/user.router.js'
+import { default as postRouter } from './post/post.router.js'
 import { sequelizeInit } from './sequelize/index.js';
 
 

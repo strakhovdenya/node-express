@@ -1,5 +1,5 @@
 import express from 'express'
-import PostController from './postController.js';
+import PostController from './post.controller.js';
 import { default as validatorPostsInputCreate } from './postInputValidatorCreate.js'
 import { default as validatorPostsInputUpdate } from './postInputValidatorUpdate.js'
 
