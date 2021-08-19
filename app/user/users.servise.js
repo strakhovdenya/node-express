@@ -1,4 +1,4 @@
-import db from '../sequelize/index.js';
+import db from '../../config/sequelize/index.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export default class UsersService {

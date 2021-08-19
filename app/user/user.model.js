@@ -28,6 +28,14 @@ export default function userModel(sequelize) {
                     is: /^\d+$/
                 }
             },
+            pass_hash: {
+                allowNull: false,
+                type: DataTypes.STRING
+            },
+            salt: {
+                allowNull: false,
+                type: DataTypes.STRING
+            }
         },
         {
             timestamps: false, createdAt: false, updatedAt: false,

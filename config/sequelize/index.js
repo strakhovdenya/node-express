@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
-import userModel from '../user/user.model.js';
-import postModel from '../post/post.model.js';
+import userModel from '../../app/user/user.model.js';
+import postModel from '../../app/post/post.model.js';
 import { applyRelationship } from './relationship.js';
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
