@@ -1,7 +1,7 @@
 import express from 'express'
 import UserController from './user.controller.js';
-import { default as validatorUsersInputCreate } from './userInputValidatorCreate.js'
-import { default as validatorUsersInputUpdate } from './userInputValidatorUpdate.js'
+import { default as validatorUsersInputCreate } from './validators/userInputValidatorCreate.js'
+import { default as validatorUsersInputUpdate } from './validators/userInputValidatorUpdate.js'
 
 const router = express.Router();
 const userController = new UserController();

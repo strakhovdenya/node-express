@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 import {} from 'dotenv/config'
 
+import '../app/auth/refreshToken.model.js'
 /**
  * -------------- DATABASE ----------------
  */

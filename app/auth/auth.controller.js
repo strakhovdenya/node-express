@@ -30,7 +30,7 @@ export default class AuthController {
         }
     }
 
-    async refreshTocken(req, res) {
+    async refreshToken(req, res) {
         try {
             const id = req.body.id;
             const response = await postsService2.delete(id)
