@@ -1,53 +1,54 @@
 import db from '../../config/sequelize/index.js';
-import { v4 as uuidv4 } from 'uuid';
+import * as  utils from '../../libs/pasport.utils.js'
 
 export default class UsersService {
 
-    login() {
-        return db.models.user.findAll();
-    }
+    async login(resDto) {
+        try {
+            const user = await db.models.user.findOne({username: req.body.username})
 
-    get(id) {
-        return db.models.user.findByPk(id);
-    }
-
-    async delete(id) {
-        const posts = await db.models.post.findAll({
-            where: {
-                userId: id
+            if (!user) {
+                resDto.setStatus(401)
+                resDto.setError("could not find user");
+                return;
             }
-        });
-        if (posts.length !== 0) {
-            throw new Error(`user with id: ${id} have ${posts.length} posts`);
+
+            // Function defined at bottom of app.js
+            const isValid = utils.validPassword(req.body.password, user.hash, user.salt);
+
+            if (isValid) {
+                const tokens = await updateTokens(user._id);
+                resDto.setStatus(200);
+                resDto.setData(tokens);
+                return;
+            }
+
+            resDto.setStatus(401)
+            resDto.setError("you entered the wrong password");
+        } catch (e) {
+            resDto.setStatus(500)
+            resDto.setError(e.message);
         }
 
-        await db.models.user.destroy({
-            where: {
-                id: id
-            }
-        });
-
-        return `user with id ${id} is deleted`;
     }
 
-    create(entityData) {
-        entityData.id = uuidv4();
-        return db.models.user.create(entityData);
-    }
+    async register(resDto) {
+        try {
 
-    async update(entityData) {
-
-        const userForUpdate = await db.models.user.findByPk(entityData.id);
-        if (!userForUpdate) {
-            throw new Error(`record with id ${entityData.id} is absent in users`);
+        } catch (e) {
+            resDto.setStatus(500)
+            resDto.setError(e.message);
         }
 
-        await db.models.user.update(entityData, {
-            where: {
-                id: entityData.id
-            }
-        });
-
-        return entityData
     }
+}
+
+const updateTokens = (userId) => {
+    const accessToken = utils.issueJWT(userId);
+    const refreshToken = utils.issueRT();
+
+    return utils.replaceDbRefreshToken(refreshToken.id, userId).then(() => ({
+        accessToken,
+        refreshToken: refreshToken.token
+    }));
 }

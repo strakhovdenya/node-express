@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
-import {} from 'dotenv/config'
+import {} from 'dotenv/config';
 
-import '../app/auth/refreshToken.model.js'
+import  '../app/auth/refreshToken.model.js';
 /**
  * -------------- DATABASE ----------------
  */
@@ -44,12 +44,18 @@ const devConnection = process.env.DB_MONGO_STRING;
 
 
 export const runMongo = async () => {
-    await mongoose.connect(devConnection, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-        poolSize: 50,
-    });
+    try {
+        await mongoose.connect(devConnection, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false,
+            poolSize: 50,
+        });
+
+    }catch (e) {
+        console.log(`MongoDB Error: ${e.message}`)
+    }
+
 }
 
 

@@ -2,6 +2,7 @@ class ResponseDto {
     constructor() {
         this.data = '';
         this.error = '';
+        this.status = 200;
     }
 
     setData(data) {
@@ -10,6 +11,14 @@ class ResponseDto {
 
     setError(error) {
         this.error = error;
+    }
+
+    setStatus(status) {
+        this.status = status;
+    }
+
+    getStatus() {
+        return this.status;
     }
 
     getResponse() {
