@@ -6,7 +6,6 @@ export default class AuthService {
 
     async login(body, resDto) {
         try {
-            console.log(body);
             const user = await db.models.user.findOne(
                 {
                     where:
@@ -26,7 +25,7 @@ export default class AuthService {
             const isValid = utils.validPassword(body.password, user.pass_hash, user.salt);
 
             if (isValid) {
-                const tokens = await updateTokens(user._id);
+                const tokens = await updateTokens(user.id);
                 resDto.setStatus(200);
                 resDto.setData(tokens);
                 return;

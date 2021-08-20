@@ -60,7 +60,6 @@ export function issueJWT(userId) {
         iat: Date.now(),
         exp: getExpirationStamp(Number(process.env.EXPIRATION_ACCESS_TOKEN)),
     };
-
     const signedToken = jwt.sign(payload, PRIV_KEY, {algorithm: process.env.REFRESH_ALGORITHM});
 
     return {
