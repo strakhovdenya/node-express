@@ -26,7 +26,7 @@ const PRIV_KEY = fs.readFileSync(pathToKey, 'utf8');
  * the decrypted hash/salt with the password that the user provided at login
  */
 export function validPassword(password, hash, salt) {
-    var hashVerify = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
+    let hashVerify = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
     return hash === hashVerify;
 }
 

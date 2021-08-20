@@ -6,7 +6,15 @@ export default class AuthService {
 
     async login(body, resDto) {
         try {
-            const user = await db.models.user.findOne({username: body.username})
+            console.log(body);
+            const user = await db.models.user.findOne(
+                {
+                    where:
+                        {
+                            name: body.username
+                        }
+                }
+            )
 
             if (!user) {
                 resDto.setStatus(401)
@@ -15,7 +23,7 @@ export default class AuthService {
             }
 
             // Function defined at bottom of app.js
-            const isValid = utils.validPassword(body.password, user.hash, user.salt);
+            const isValid = utils.validPassword(body.password, user.pass_hash, user.salt);
 
             if (isValid) {
                 const tokens = await updateTokens(user._id);
