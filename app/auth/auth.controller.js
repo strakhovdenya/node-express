@@ -9,7 +9,7 @@ export default class AuthController {
 
         const resDto = getResponseDto();
 
-        await authService.login(resDto);
+        await authService.login(req.body, resDto);
 
         res.status(resDto.getStatus()).end(JSON.stringify(resDto.getResponse()));
     }
@@ -18,7 +18,7 @@ export default class AuthController {
 
             const resDto = getResponseDto();
 
-            await authService.register(resDto);
+            await authService.register(req.body, resDto);
 
             res.status(resDto.getStatus()).end(JSON.stringify(resDto.getResponse()));
     }

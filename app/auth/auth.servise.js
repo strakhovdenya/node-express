@@ -1,11 +1,12 @@
 import db from '../../config/sequelize/index.js';
 import * as  utils from '../../libs/pasport.utils.js'
+import {v4 as uuidv4} from "uuid";
 
-export default class UsersService {
+export default class AuthService {
 
-    async login(resDto) {
+    async login(body, resDto) {
         try {
-            const user = await db.models.user.findOne({username: req.body.username})
+            const user = await db.models.user.findOne({username: body.username})
 
             if (!user) {
                 resDto.setStatus(401)
@@ -14,7 +15,7 @@ export default class UsersService {
             }
 
             // Function defined at bottom of app.js
-            const isValid = utils.validPassword(req.body.password, user.hash, user.salt);
+            const isValid = utils.validPassword(body.password, user.hash, user.salt);
 
             if (isValid) {
                 const tokens = await updateTokens(user._id);
@@ -32,9 +33,18 @@ export default class UsersService {
 
     }
 
-    async register(resDto) {
+    async register(entity, resDto) {
         try {
+            const saltHash = utils.genPassword(entity.password);
 
+            entity.id = uuidv4();
+            entity.name = entity.username;
+            entity.salt = saltHash.salt;
+            entity.pass_hash = saltHash.hash;
+
+            await db.models.user.create(entity);
+            resDto.setStatus(200);
+            resDto.setData(`User created`);
         } catch (e) {
             resDto.setStatus(500)
             resDto.setError(e.message);
