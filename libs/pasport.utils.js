@@ -8,8 +8,12 @@ import {fileURLToPath} from 'url';
 
 const RefreshToken = mongoose.model('RefreshToken');
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const pathToKey = path.join(__dirname, '..', 'id_rsa_priv.pem');
-const PRIV_KEY = fs.readFileSync(pathToKey, 'utf8');
+
+const pathToPrivKey = path.join(__dirname, '..', 'id_rsa_priv.pem');
+const PRIV_KEY = fs.readFileSync(pathToPrivKey, 'utf8');
+
+const pathToPubKey = path.join(__dirname, '..', 'id_rsa_pub.pem');
+const PUB_KEY = fs.readFileSync(pathToPubKey, 'utf8');
 
 
 /**
@@ -83,10 +87,13 @@ export function issueRT() {
     }
 }
 
-export function replaceDbRefreshToken(tokenId, userId) {
-    return RefreshToken.findOneAndRemove({userId})
-        .exec()
-        .then(() => RefreshToken.create({tokenId, userId}));
+export async function replaceDbRefreshToken(tokenId, userId) {
+    await RefreshToken.findOneAndRemove({userId})
+    await RefreshToken.create({tokenId, userId});
+}
+
+export async function verifyToken(token) {
+    return await jwt.verify(token, PUB_KEY);
 }
 
 function getExpirationStamp(seconds) {

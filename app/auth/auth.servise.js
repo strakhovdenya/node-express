@@ -1,6 +1,12 @@
 import db from '../../config/sequelize/index.js';
 import * as  utils from '../../libs/pasport.utils.js'
 import {v4 as uuidv4} from "uuid";
+import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
+
+
+const RefreshToken = mongoose.model('RefreshToken');
+
 
 export default class AuthService {
 
@@ -40,6 +46,18 @@ export default class AuthService {
 
     }
 
+    async logout(user, resDto) {
+        try {
+            await RefreshToken.deleteMany({user: user.id})
+
+            resDto.setStatus(200);
+            resDto.setData(`User logout successfully`);
+        } catch (e) {
+            resDto.setStatus(500)
+            resDto.setError(e.message);
+        }
+    }
+
     async register(entity, resDto) {
         try {
             const saltHash = utils.genPassword(entity.password);
@@ -56,16 +74,59 @@ export default class AuthService {
             resDto.setStatus(500)
             resDto.setError(e.message);
         }
+    }
 
+    async refreshToken(body, resDto) {
+
+        const {refreshToken} = body;
+        let payLoad;
+        try {
+            payLoad = await utils.verifyToken(refreshToken);
+            if (payLoad.type !== 'refresh-token') {
+                resDto.setStatus(401);
+                resDto.setError(`Invalid token type`);
+                return;
+            }
+        } catch (e) {
+            if (e.name === 'TokenExpiredError') {
+                resDto.setStatus(401);
+                resDto.setError(`Token expired`);
+                return;
+            }
+            resDto.setStatus(401);
+            resDto.setError(`Token problem: ${e.message}`);
+
+            return;
+        }
+
+        try {
+            const refToken = await RefreshToken.findOne({tokenId: payLoad.id})
+
+            if (refToken === null) {
+                resDto.setStatus(401);
+                resDto.setError(`Invalid token`);
+                return;
+            }
+
+            const newTokens = await updateTokens(refToken.userId);
+
+            resDto.setStatus(200);
+            resDto.setData(newTokens);
+        } catch (e) {
+            resDto.setStatus(500);
+            resDto.setError(e.message);
+        }
     }
 }
 
-const updateTokens = (userId) => {
+async function updateTokens(userId) {
     const accessToken = utils.issueJWT(userId);
     const refreshToken = utils.issueRT();
 
-    return utils.replaceDbRefreshToken(refreshToken.id, userId).then(() => ({
+    await utils.replaceDbRefreshToken(refreshToken.id, userId);
+
+    return {
         accessToken,
         refreshToken: refreshToken.token
-    }));
+    };
 }

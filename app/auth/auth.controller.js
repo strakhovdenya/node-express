@@ -24,25 +24,21 @@ export default class AuthController {
     }
 
     async logout(req, res) {
-        try {
-            const id = req.params.id;
-            const response = await postsService2.get(id)
-            res.end(JSON.stringify({data: response}));
-        } catch (error) {
-            res.end(JSON.stringify({error: error.message}));
-        }
+        const resDto = getResponseDto();
+
+        await authService.logout(req.user, resDto);
+
+        res.status(resDto.getStatus()).end(JSON.stringify(resDto.getResponse()));
     }
 
 
 
     async refreshToken(req, res) {
-        try {
-            const id = req.body.id;
-            const response = await postsService2.delete(id)
-            res.end(JSON.stringify({data: response}));
-        } catch (error) {
-            res.end(JSON.stringify({error: error.message}));
-        }
+        const resDto = getResponseDto();
+
+        await authService.refreshToken(req.body, resDto);
+
+        res.status(resDto.getStatus()).end(JSON.stringify(resDto.getResponse()));
     }
 
 

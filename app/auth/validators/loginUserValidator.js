@@ -4,9 +4,8 @@ import { createValidator } from 'express-joi-validation';
 const validator = createValidator()
 
 const querySchema = Joi.object({
-    id: Joi.string().min(3).required(),
-    text: Joi.string().min(3).required(),
-    userId: Joi.string().required()
+    username: Joi.string().min(3).required(),
+    password: Joi.string().min(3).required()
 })
 
 export default validator.body(querySchema);
